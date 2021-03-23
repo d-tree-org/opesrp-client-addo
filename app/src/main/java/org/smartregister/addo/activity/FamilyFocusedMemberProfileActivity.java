@@ -174,8 +174,8 @@ public class FamilyFocusedMemberProfileActivity extends BaseProfileActivity impl
     }
 
     @Override
-    public void setProfileImage(String baseEntityId, String entityType) {
-        imageRenderHelper.refreshProfileImage(baseEntityId, imageView, Utils.getMemberProfileImageResourceIDentifier(entityType));
+    public void setProfileImage(String baseEntityId) {
+        imageRenderHelper.refreshProfileImage(baseEntityId, imageView, getMemberProfileImageResourceIDentifier(baseEntityId));
     }
 
     @Override
@@ -554,5 +554,24 @@ public class FamilyFocusedMemberProfileActivity extends BaseProfileActivity impl
             }
         });
         alert.show();
+    }
+
+    private int getMemberProfileImageResourceIDentifier(String baseEntityId) {
+
+        int imageResourceId;
+
+        if (AncDao.isANCMember(baseEntityId)) {
+            imageResourceId = org.smartregister.addo.util.Utils.getAnCWomanImageResourceIdentifier();
+        } else if (PNCDao.isPNCMember(baseEntityId)) {
+            imageResourceId = org.smartregister.addo.util.Utils.getPnCWomanImageResourceIdentifier();
+        } else if (AdolescentDao.isAdolescentMember(baseEntityId)) {
+            imageResourceId = org.smartregister.addo.util.Utils.getMemberImageResourceIdentifier();
+        } else {
+            imageResourceId =org.smartregister.addo.util.Utils.getChildProfileImageResourceIDentifier();
+        }
+
+
+        return imageResourceId;
+
     }
 }

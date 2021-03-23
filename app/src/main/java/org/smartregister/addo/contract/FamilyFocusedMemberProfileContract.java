@@ -12,7 +12,7 @@ public interface FamilyFocusedMemberProfileContract {
 
         FamilyFocusedMemberProfileContract.Presenter presenter();
 
-        void setProfileImage(String baseEntityId, String entityType);
+        void setProfileImage(String baseEntityId);
 
         void setProfileName(String fullName);
 

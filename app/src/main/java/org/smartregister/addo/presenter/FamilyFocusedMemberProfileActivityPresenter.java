@@ -111,7 +111,7 @@ public class FamilyFocusedMemberProfileActivityPresenter implements FamilyFocuse
             getView().togglePrimaryCaregiver(false);
         }
 
-        getView().setProfileImage(client.getCaseId(), entityType);
+        getView().setProfileImage(client.getCaseId());
 
     }
 
