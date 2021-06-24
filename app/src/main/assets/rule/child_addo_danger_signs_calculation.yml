@@ -145,7 +145,8 @@ actions:
         if ((selectedItem.contains('chk_coughing') || selectedItem.contains('chk_body_chills')) ||
             selectedItem.contains('chk_cold_flu') || selectedItem.contains('chk_sore_throat') ||
             selectedItem.contains('chk_sneezing') || selectedItem.contains('chk_minor_skin_infections') ||
-            selectedItem.contains('chk_mild_diarrhea_without_blood') || selectedItem.contains('chk_minor_wound_cuts')) {
+            selectedItem.contains('chk_mild_diarrhea_without_blood') || selectedItem.contains('chk_feels_thirsty') ||
+            selectedItem.contains('chk_minor_wound_cuts')) {
             if (conditions.isEmpty()) {
               conditions += 'other_minor_illness';
             } else {
@@ -184,7 +185,7 @@ actions:
             selectedItem.contains('chk_bloody_stool') || selectedItem.contains('chk_excessive_crying_discomfort') ||
             selectedItem.contains('chk_malnutrition') || selectedItem.contains('chk_lack_of_appetite') ||
             selectedItem.contains('chk_blue_lips') || selectedItem.contains('chk_constipation') ||
-            selectedItem.contains('chk_no_movement') || selectedItem.contains('chk_jaundiced') || selectedItem.contains('chk_feels_thirsty')) {
+            selectedItem.contains('chk_no_movement') || selectedItem.contains('chk_jaundiced')) {
             if (conditions.isEmpty()) {
               conditions += 'general_conditions_for_referral';
             } else {
@@ -298,9 +299,13 @@ actions:
         }
 
         if ((condition.contains('oversleeping_umbilica_rashes_puseyes') || condition.contains('general_conditions_for_referral')) &&
-            !(condition.contains('malaria') || condition.contains('bloody_diarrhea') || condition.contains('pneumonia') ||
-            condition.contains('diarrhea_without_blood') || condition.contains('severe_pneumonia'))) {
-            addoAdviceMessage += '{{addo_advice_take_child_to_hf}}';
+            !(condition.contains('malaria') || condition.contains('severe_malaria') || condition.contains('bloody_diarrhea') || condition.contains('chronic_diarrhea') ||
+            condition.contains('pneumonia') || condition.contains('diarrhea_without_blood') || condition.contains('severe_pneumonia'))) {
+            if (condition.contains('general_conditions_for_referral')) {
+              addoAdviceMessage += '{{addo_advice_take_child_to_hf_general}}';
+            } if (condition.contains('oversleeping_umbilica_rashes_puseyes')) {
+              addoAdviceMessage += '{{addo_advice_take_child_to_hf}}';
+            }
         }
         if (condition.contains('malaria') && !condition.contains('severe_malaria')) {
             addoAdviceMessage += '{{addo_advice_malaria}}';
@@ -322,10 +327,11 @@ actions:
         if (condition.contains('severe_diarrhea_without_blood') && !(condition.contains('bloody_diarrhea') || condition.contains('chronic_diarrhea'))) {
             addoAdviceMessage += '{{addo_advice_severe_diarrhea_without_blood}}';
         }
-        if (condition.contains('bloody_diarrhea')) {
+        if (condition.contains('bloody_diarrhea') && condition.contains('chronic_diarrhea')) {
+            addoAdviceMessage += '{{addo_advice_bloody_chronic_diarrhea}}';
+        } else if(condition.contains('bloody_diarrhea')) {
             addoAdviceMessage += '{{addo_advice_bloody_diarrhea}}';
-        }
-        if (condition.contains('chronic_diarrhea')) {
+        } else if (condition.contains('chronic_diarrhea')) {
             addoAdviceMessage += '{{addo_advice_chronic_diarrhea}}';
         }
         return addoAdviceMessage;
